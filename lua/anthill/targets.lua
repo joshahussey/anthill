@@ -9,9 +9,6 @@ function File_exists(name)
    if f~=nil then io.close(f) return true else return false end
 end
 local build_file_path = root_dir .. "/build.xml"
-if not File_exists(build_file_path) then
-    return
-end
 function Get_targets()
     local targets = {}
     local idx = 1
@@ -27,7 +24,12 @@ function Get_targets()
     return targets, idx
 end
 local M = {}
-local targets, target_count = Get_targets()
-M.targets = targets
-M.target_count = target_count
+if not File_exists(build_file_path) then
+    M.targets_count = 0
+    M.targets = {}
+    return
+end
+if M.targets == nil then
+  M.targets, M.target_count = Get_targets()
+end
 return M

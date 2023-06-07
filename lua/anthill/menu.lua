@@ -2,6 +2,9 @@ local popup = require('plenary.popup')
 local T = require('anthill.targets')
 Targets = T.targets
 Target_count = T.target_count
+if Target_count == 0 then
+    return
+end
 local M = {}
 
 Menu_id = nil
