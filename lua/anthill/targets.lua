@@ -4,7 +4,14 @@ local root_dir = require("jdtls.setup").find_root(root_markers)
 if root_dir == "" then
     return
 end
+function File_exists(name)
+   local f=io.open(name,"r")
+   if f~=nil then io.close(f) return true else return false end
+end
 local build_file_path = root_dir .. "/build.xml"
+if not File_exists(build_file_path) then
+    return
+end
 function Get_targets()
     local targets = {}
     local idx = 1
