@@ -5,12 +5,12 @@ local M = {}
 if root_dir == nil then
     M.targets = {}
     M.targets_count = 0
-    return
+    return M
 end
 if root_dir == "" then
     M.targets = {}
     M.targets_count = 0
-    return
+    return M
 end
 function File_exists(name)
    local f=io.open(name,"r")
