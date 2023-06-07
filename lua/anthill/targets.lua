@@ -1,10 +1,15 @@
 local xmlreader = require('xmlreader')
 local root_markers = { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle," }
 local root_dir = require("jdtls.setup").find_root(root_markers)
+local M = {}
 if root_dir == nil then
+    M.targets = {}
+    M.targets_count = 0
     return
 end
 if root_dir == "" then
+    M.targets = {}
+    M.targets_count = 0
     return
 end
 function File_exists(name)
@@ -26,7 +31,6 @@ function Get_targets()
     end
     return targets, idx
 end
-local M = {}
 if not File_exists(build_file_path) then
     M.targets_count = 0
     M.targets = {}
