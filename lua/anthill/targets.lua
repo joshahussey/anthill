@@ -27,7 +27,7 @@ local M = {}
 if not File_exists(build_file_path) then
     M.targets_count = 0
     M.targets = {}
-    return
+    return M
 end
 if M.targets == nil then
   M.targets, M.target_count = Get_targets()
