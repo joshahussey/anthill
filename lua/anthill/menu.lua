@@ -74,7 +74,7 @@ function M.toggle_ant_menu()
         Menu_bufnr,
         "n",
         "<ESC>",
-        "<Cmd>lua require('anthill.menu').toggle_ankt_menu()<CR>",
+        "<Cmd>lua require('anthill.menu').toggle_ant_menu()<CR>",
         { silent = true }
     )
     vim.api.nvim_buf_set_keymap(
