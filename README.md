@@ -18,10 +18,10 @@ To map a different key call:
 ## TODO
 - [x] Add list of builds
 - [x] Add building from selection
-- [] Add Build Description support
-- [] Add Build Location support
-- [] Add dependency support
-- [] Add "Open Build File" support
+- [ ] Add Build Description support
+- [ ] Add Build Location support
+- [ ] Add dependency support
+- [ ] Add "Open Build File" support
 
 ## Credit
 ### ThePrimeagen/Harpoon
