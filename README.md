@@ -6,7 +6,11 @@ Allows for quick selection and building of targets from Java Ant Projects
 
 ## Installation
 ### Packer
-use({joshahussey/anthill})
+`use({joshahussey/anthill})`
+
+### dependencies
+- xmlreader `luarocks install xmlreader`
+- JDTLS, download and install JDTLS, configuration not required. (To be removed soon)
 
 ## Usage
 Open AntHill menu, select the target you want to build
@@ -22,6 +26,7 @@ To map a different key call:
 - [ ] Add Build Location support
 - [ ] Add dependency support
 - [ ] Add "Open Build File" support
+- [ ] Remove dependencies on JDTLS
 
 ## Credit
 ### ThePrimeagen/Harpoon
