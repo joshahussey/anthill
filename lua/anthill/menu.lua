@@ -1,7 +1,7 @@
 local popup = require("plenary.popup")
 local T = require("anthill.targets")
 local L = require("anthill.list")
-L.Get_build_info_list()
+L.Get_build_list_info()
 Targets = T.targets
 Target_count = T.target_count
 local M = {}
