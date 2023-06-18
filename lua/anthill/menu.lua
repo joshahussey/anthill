@@ -35,7 +35,7 @@ local function close_menu()
 end
 
 local function create_window()
-	local width = 60
+	local width = 80
 	local height = 25
 	if Target_count < height then
 		height = Target_count + 2
@@ -123,7 +123,14 @@ function M.toggle_show_info()
 			target = vim.fn.getbufline(Menu_bufnr, idx - count, idx - count)[1]
 			isTarget = table_contains(Targets, target)
 		end
-		vim.api.nvim_buf_set_lines(Menu_bufnr, idx - count, idx - count + 2, false, {})
+		local isNextTarget = false
+		local infoLines = 0
+		while not isNextTarget do
+			infoLines = infoLines + 1
+			target = vim.fn.getbufline(Menu_bufnr, idx - count + infoLines, idx - count + infoLines)[1]
+			isNextTarget = table_contains(Targets, target)
+		end
+		vim.api.nvim_buf_set_lines(Menu_bufnr, idx - count, idx - count + infoLines, false, {})
 		return
 	end
 	local nextLineTarget = vim.fn.getbufline(Menu_bufnr, idx + 1, idx + 1)[1]
@@ -135,14 +142,31 @@ function M.toggle_show_info()
 	local infoIdx = get_target_index(Targets, target)
 	local info = Info[infoIdx]
 	local description = info.description
-	local depends = info.depends
-	vim.api.nvim_buf_set_lines(
-		Menu_bufnr,
-		idx,
-		idx,
-		false,
-		{ "  |  Description: " .. description, "  |  Depends: " .. depends }
-	)
+	local lineCount = info.description.len() / 50
+	if lineCount < 1 and lineCount ~= 0 then
+		lineCount = 1
+	elseif lineCount > 1 then
+		lineCount = math.ceil(lineCount)
+	end
+	local infoLines = {}
+	local currentLine = 1
+	if info.description.len() > 50 then
+		while lineCount > currentLine do
+			if currentLine == 1 then
+				table.insert(
+					infoLines,
+					"  |  Description: " .. description:sub(50 * currentLine, (50 * currentLine) + 50)
+				)
+			else
+				table.insert(
+					infoLines,
+					"                  " .. description:sub(50 * currentLine, (50 * currentLine) + 50)
+				)
+			end
+		end
+	end
+	table.insert(infoLines, "  |  Depends: " .. info.depends)
+	vim.api.nvim_buf_set_lines(Menu_bufnr, idx, idx, false, infoLines)
 end
 
 return M
