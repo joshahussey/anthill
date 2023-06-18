@@ -9,6 +9,13 @@ local function table_contains(table, element)
 	end
 	return false
 end
+local function get_target_index(table, element)
+	for index, value in pairs(table) do
+		if value == element then
+			return index
+		end
+	end
+end
 Info = L.info
 Targets = L.targets
 Target_count = L.target_count
@@ -106,7 +113,7 @@ end
 
 function M.toggle_show_info()
 	local idx = vim.fn.line(".")
-	local info = Info[idx]
+	--local info = Info[idx]
 	local target = vim.fn.getbufline(Menu_bufnr, idx, idx)[1]
 	local isTarget = table_contains(Targets, target)
 	if not isTarget then
@@ -116,9 +123,11 @@ function M.toggle_show_info()
 			target = vim.fn.getbufline(Menu_bufnr, idx - count, idx - count)[1]
 			isTarget = table_contains(Targets, target)
 		end
-		vim.api.nvim_buf_set_lines(Menu_bufnr, idx - count, idx - count, false, {})
+		vim.api.nvim_buf_set_lines(Menu_bufnr, idx - count, idx - count + 2, false, {})
 		return
 	end
+	local infoIdx = get_target_index(Targets, target)
+	local info = Info[infoIdx]
 	local description = info.description
 	local depends = info.depends
 	vim.api.nvim_buf_set_lines(
