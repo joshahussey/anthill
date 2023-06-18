@@ -142,7 +142,7 @@ function M.toggle_show_info()
 	local infoIdx = get_target_index(Targets, target)
 	local info = Info[infoIdx]
 	local description = info.description
-	local lineCount = info.description.len() / 50
+	local lineCount = string.len(description) / 50
 	if lineCount < 1 and lineCount ~= 0 then
 		lineCount = 1
 	elseif lineCount > 1 then
@@ -150,7 +150,7 @@ function M.toggle_show_info()
 	end
 	local infoLines = {}
 	local currentLine = 1
-	if info.description.len() > 50 then
+	if string.len(description) > 50 then
 		while lineCount > currentLine do
 			if currentLine == 1 then
 				table.insert(
