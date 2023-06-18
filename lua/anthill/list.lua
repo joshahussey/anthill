@@ -23,7 +23,7 @@ function File_exists(name)
 end
 
 local build_file_path = root_dir .. "/build.xml"
-function Get_build_list_info()
+function M.Get_build_list_info()
 	local info = {}
 	local idx = 1
 	local r = assert(xmlreader.from_file(build_file_path))
@@ -48,10 +48,10 @@ function Get_build_list_info()
 					isAttribute = r:move_to_next_attribute()
 				end
 				if description == nil then
-					print("description is nil")
+					description = name
 				end
 				if depends == nil then
-					print("depends is nil")
+					depends = "None"
 				end
 				info[idx] = { name = name, description = description, depends = depends }
 				idx = idx + 1
@@ -69,6 +69,6 @@ if not File_exists(build_file_path) then
 	return M
 end
 if M.info == nil then
-	M.info, M.info_count = Get_build_list_info()
+	M.info, M.info_count = M.Get_build_list_info()
 end
 return M
