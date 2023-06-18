@@ -126,6 +126,12 @@ function M.toggle_show_info()
 		vim.api.nvim_buf_set_lines(Menu_bufnr, idx - count, idx - count + 2, false, {})
 		return
 	end
+	local nextLineTarget = vim.fn.getbufline(Menu_bufnr, idx + 1, idx + 1)[1]
+	local nextLineIsTarget = table_contains(Targets, nextLineTarget)
+	if not nextLineIsTarget then
+		vim.api.nvim_buf_set_lines(Menu_bufnr, idx, idx + 2, false, {})
+		return
+	end
 	local infoIdx = get_target_index(Targets, target)
 	local info = Info[infoIdx]
 	local description = info.description
