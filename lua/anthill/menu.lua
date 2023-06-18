@@ -1,6 +1,14 @@
 local popup = require("plenary.popup")
 local T = require("anthill.targets")
 local L = require("anthill.list")
+local function table_contains(table, element)
+	for _, value in pairs(table) do
+		if value == element then
+			return true
+		end
+	end
+	return false
+end
 Info = L.info
 Targets = L.targets
 Target_count = L.target_count
@@ -9,6 +17,7 @@ if Target_count == 0 then
 	return
 end
 
+--Menu State
 Menu_id = nil
 Menu_bufnr = nil
 
@@ -76,25 +85,49 @@ function M.toggle_ant_menu()
 		{ silent = true }
 	)
 	vim.api.nvim_buf_set_keymap(Menu_bufnr, "n", "<CR>", "<Cmd>lua require('anthill.menu').select_menu_item()<CR>", {})
-	vim.api.nvim_buf_set_keymap(Menu_bufnr, "n", "d", "<Cmd>lua require('anthill.menu').show_info()<CR>", {})
+	vim.api.nvim_buf_set_keymap(Menu_bufnr, "n", "d", "<Cmd>lua require('anthill.menu').toggle_show_info()<CR>", {})
 end
+
 function M.select_menu_item()
 	local idx = vim.fn.line(".")
 	local target = vim.fn.getbufline(Menu_bufnr, idx, idx)[1]
+	local isTarget = table_contains(Targets, target)
+	if not isTarget then
+		local count = 0
+		while not isTarget do
+			count = count + 1
+			target = vim.fn.getbufline(Menu_bufnr, idx - count, idx - count)[1]
+			isTarget = table_contains(Targets, target)
+		end
+	end
 	close_menu()
 	vim.cmd(":Ant " .. target)
 end
-function M.show_info()
+
+function M.toggle_show_info()
 	local idx = vim.fn.line(".")
 	local info = Info[idx]
+	local target = vim.fn.getbufline(Menu_bufnr, idx, idx)[1]
+	local isTarget = table_contains(Targets, target)
+	if not isTarget then
+		local count = 0
+		while not isTarget do
+			count = count + 1
+			target = vim.fn.getbufline(Menu_bufnr, idx - count, idx - count)[1]
+			isTarget = table_contains(Targets, target)
+		end
+		vim.api.nvim_buf_set_lines(Menu_bufnr, idx - count, idx - count, false, {})
+		return
+	end
 	local description = info.description
 	local depends = info.depends
 	vim.api.nvim_buf_set_lines(
 		Menu_bufnr,
-		idx + 1,
-		idx + 3,
+		idx,
+		idx,
 		false,
-		{ "Description: " .. description, "Depends: " .. depends }
+		{ "  |  Description: " .. description, "  |  Depends: " .. depends }
 	)
 end
+
 return M
