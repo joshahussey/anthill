@@ -16,6 +16,55 @@ local function get_target_index(table, element)
 		end
 	end
 end
+local function get_open_info_indices(idx)
+	local startIdx = idx
+	local endIdx = idx + 1
+	local lineString = vim.fn.getbufline(Menu_bufnr, idx, idx)[1]
+	if table_contains(Targets, lineString) then
+		startIdx = idx
+	else
+		local count = 1
+		while not table_contains(Targets, lineString) do
+			startIdx = idx - count
+			lineString = vim.fn.getbufline(Menu_bufnr, startIdx, startIdx)[1]
+		end
+	end
+	local nextLineString = vim.fn.getbufline(Menu_bufnr, endIdx, endIdx)[1]
+	while not table_contains(Targets, nextLineString) do
+		endIdx = endIdx + 1
+		lineString = vim.fn.getbufline(Menu_bufnr, endIdx, endIdx)[1]
+	end
+	return startIdx, endIdx
+end
+local function get_start_padding(name)
+	local nameLength = string.len(name)
+	local padding = ""
+	local i = 1
+	while i <= nameLength do
+		padding = padding .. " "
+		i = i + 1
+	end
+	return padding
+end
+local function create_table_from_string(string, lineLength, name)
+	local stringLength = string.len(string)
+	local table = {}
+	local lineCount = math.ceil(stringLength / lineLength)
+	local startPadding = get_start_padding(name)
+	local i = 1
+	local line = ""
+	while i <= lineCount do
+		if i == 1 then
+			line = "  |  " .. name .. ": " .. string.sub(string, 1, lineLength)
+		else
+			line = "  |  " .. startPadding .. ": " .. string.sub(string, i * lineLength, (i * lineLength) + lineLength)
+		end
+		table[i] = line
+		i = i + 1
+	end
+	return table
+end
+
 Info = L.info
 Targets = L.targets
 Target_count = L.target_count
@@ -117,26 +166,8 @@ function M.toggle_show_info()
 	local target = vim.fn.getbufline(Menu_bufnr, idx, idx)[1]
 	local isTarget = table_contains(Targets, target)
 	if not isTarget then
-		local count = 0
-		while not isTarget do
-			count = count + 1
-			target = vim.fn.getbufline(Menu_bufnr, idx - count, idx - count)[1]
-			isTarget = table_contains(Targets, target)
-		end
-		local isNextTarget = false
-		local infoLines = 0
-		while not isNextTarget do
-			infoLines = infoLines + 1
-			target = vim.fn.getbufline(Menu_bufnr, idx - count + infoLines, idx - count + infoLines)[1]
-			isNextTarget = table_contains(Targets, target)
-		end
-		vim.api.nvim_buf_set_lines(Menu_bufnr, idx - count, idx - count + infoLines, false, {})
-		return
-	end
-	local nextLineTarget = vim.fn.getbufline(Menu_bufnr, idx + 1, idx + 1)[1]
-	local nextLineIsTarget = table_contains(Targets, nextLineTarget)
-	if not nextLineIsTarget then
-		vim.api.nvim_buf_set_lines(Menu_bufnr, idx, idx + 2, false, {})
+		local infoStartIdx, infoEndIdx = get_open_info_indices(idx)
+		vim.api.nvim_buf_set_lines(Menu_bufnr, infoStartIdx, infoEndIdx, false, {})
 		return
 	end
 	local infoIdx = get_target_index(Targets, target)
@@ -148,23 +179,7 @@ function M.toggle_show_info()
 	elseif lineCount > 1 then
 		lineCount = math.ceil(lineCount)
 	end
-	local infoLines = {}
-	local currentLine = 1
-	if string.len(description) > 50 then
-		while lineCount > currentLine do
-			if currentLine == 1 then
-				table.insert(
-					infoLines,
-					"  |  Description: " .. description:sub(50 * currentLine, (50 * currentLine) + 50)
-				)
-			else
-				table.insert(
-					infoLines,
-					"                  " .. description:sub(50 * currentLine, (50 * currentLine) + 50)
-				)
-			end
-		end
-	end
+	local infoLines = create_table_from_string(description, 50, "Description")
 	table.insert(infoLines, "  |  Depends: " .. info.depends)
 	vim.api.nvim_buf_set_lines(Menu_bufnr, idx, idx, false, infoLines)
 end
