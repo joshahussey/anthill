@@ -21,6 +21,7 @@ function File_exists(name)
 		return false
 	end
 end
+
 local build_file_path = root_dir .. "/build.xml"
 function Get_build_list_info()
 	local info = {}
@@ -29,31 +30,43 @@ function Get_build_list_info()
 	while r:read() do
 		if r:node_type() ~= "end element" then
 			if r:name() == "target" then
+				local name
+				local description
+				local depends
 				local isAttribute = r:move_to_first_attribute()
 				while isAttribute do
 					print(r:local_name())
 					local attribute = r:local_name()
+					if attribute == "name" then
+						name = r:value()
+						print(name)
+					end
+					if attribute == "description" then
+						description = r:value()
+						print(description)
+					end
+					if attribute == "depends" then
+						depends = r:value()
+					end
 					isAttribute = r:move_to_next_attribute()
 				end
-				--		local name = r:get_attribute("name")
-				--		local description = r:get_attribute("description")
-				--		local depends = r:get_attribute("depends")
-				--		if name == nil then
-				--			print("name is nil")
-				--		end
-				--		if description == nil then
-				--			print("description is nil")
-				--		end
-				--		if depends == nil then
-				--			print("depends is nil")
-				--		end
-				--		info[idx] = { name = name, description = description, depends = depends }
-				--		idx = idx + 1
+				if name == nil then
+					print("name is nil")
+				end
+				if description == nil then
+					print("description is nil")
+				end
+				if depends == nil then
+					print("depends is nil")
+				end
+				info[idx] = { name = name, description = description, depends = depends }
+				idx = idx + 1
 			end
 		end
 	end
 	return info, idx
 end
+
 if not File_exists(build_file_path) then
 	M.info = {}
 	M.info_count = 0
