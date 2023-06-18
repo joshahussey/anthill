@@ -1,9 +1,9 @@
 local popup = require("plenary.popup")
 local T = require("anthill.targets")
 local L = require("anthill.list")
-L.Get_build_list_info()
-Targets = T.targets
-Target_count = T.target_count
+Info = L.info
+Targets = L.targets
+Target_count = L.target_count
 local M = {}
 if Target_count == 0 then
 	return
@@ -76,11 +76,25 @@ function M.toggle_ant_menu()
 		{ silent = true }
 	)
 	vim.api.nvim_buf_set_keymap(Menu_bufnr, "n", "<CR>", "<Cmd>lua require('anthill.menu').select_menu_item()<CR>", {})
+	vim.api.nvim_buf_set_keymap(Menu_bufnr, "n", "d", "<Cmd>lua require('anthill.menu').show_info()<CR>", {})
 end
 function M.select_menu_item()
 	local idx = vim.fn.line(".")
 	local target = vim.fn.getbufline(Menu_bufnr, idx, idx)[1]
 	close_menu()
 	vim.cmd(":Ant " .. target)
+end
+function M.show_info()
+	local idx = vim.fn.line(".")
+	local info = Info[idx]
+	local description = info.description
+	local depends = info.depends
+	vim.api.nvim_buf_set_lines(
+		Menu_bufnr,
+		idx + 1,
+		idx + 3,
+		false,
+		{ "Description: " .. description, "Depends: " .. depends }
+	)
 end
 return M

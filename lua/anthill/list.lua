@@ -4,12 +4,14 @@ local root_dir = require("jdtls.setup").find_root(root_markers)
 local M = {}
 if root_dir == nil then
 	M.info = {}
-	M.info_count = 0
+	M.target_count = 0
+	M.targets = {}
 	return M
 end
 if root_dir == "" then
 	M.info = {}
-	M.info_count = 0
+	M.target_count = 0
+	M.targets = {}
 	return M
 end
 function File_exists(name)
@@ -25,6 +27,7 @@ end
 local build_file_path = root_dir .. "/build.xml"
 function M.Get_build_list_info()
 	local info = {}
+	local targets = {}
 	local idx = 1
 	local r = assert(xmlreader.from_file(build_file_path))
 	while r:read() do
@@ -53,22 +56,22 @@ function M.Get_build_list_info()
 				if depends == nil then
 					depends = "None"
 				end
-				info[idx] = { name = name, description = description, depends = depends }
+				targets[idx] = name
+				info[idx] = { description = description, depends = depends }
 				idx = idx + 1
 			end
 		end
 	end
-	print("info count: " .. idx)
-	print("info: " .. vim.inspect(info))
-	return info, idx
+	return targets, idx, info
 end
 
 if not File_exists(build_file_path) then
 	M.info = {}
-	M.info_count = 0
+	M.target_count = 0
+	M.targets = {}
 	return M
 end
 if M.info == nil then
-	M.info, M.info_count = M.Get_build_list_info()
+	M.targets, M.target_count, M.info = M.Get_build_list_info()
 end
 return M
