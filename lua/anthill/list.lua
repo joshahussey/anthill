@@ -35,23 +35,17 @@ function Get_build_list_info()
 				local depends
 				local isAttribute = r:move_to_first_attribute()
 				while isAttribute do
-					print(r:local_name())
 					local attribute = r:local_name()
 					if attribute == "name" then
 						name = r:value()
-						print(name)
 					end
 					if attribute == "description" then
 						description = r:value()
-						print(description)
 					end
 					if attribute == "depends" then
 						depends = r:value()
 					end
 					isAttribute = r:move_to_next_attribute()
-				end
-				if name == nil then
-					print("name is nil")
 				end
 				if description == nil then
 					print("description is nil")
@@ -64,6 +58,8 @@ function Get_build_list_info()
 			end
 		end
 	end
+	print("info count: " .. idx)
+	print("info: " .. vim.inspect(info))
 	return info, idx
 end
 
