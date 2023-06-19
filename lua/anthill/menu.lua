@@ -185,9 +185,9 @@ function M.toggle_show_info()
 	local idx = vim.fn.line(".")
 	local lineString = vim.fn.getbufline(Menu_bufnr, idx, idx)[1]
 	local nextLineString = vim.fn.getbufline(Menu_bufnr, idx + 1, idx + 1)[1]
+	print(nextLineString)
 	local isTarget = table_contains(Targets, lineString)
 	local isNextTarget = table_contains(Targets, nextLineString)
-	print(isNextTarget)
 	if isTarget and isNextTarget then
 		open_info(idx, lineString)
 		return
