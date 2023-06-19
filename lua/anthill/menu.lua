@@ -34,7 +34,7 @@ local function get_open_info_indices(idx)
 		endIdx = endIdx + 1
 		nextLineString = vim.fn.getbufline(Menu_bufnr, endIdx, endIdx)[1]
 	end
-	return startIdx, endIdx
+	return startIdx, endIdx - 1
 end
 local function get_start_padding(name)
 	local nameLength = string.len(name)
