@@ -181,12 +181,6 @@ function M.toggle_show_info()
 		return
 	elseif (isTarget and not isNextTarget) or not isTarget then
 		local infoStartIdx, infoEndIdx = get_open_info_indices(idx)
-		print(infoStartIdx, infoEndIdx)
-		return
-	end
-
-	if not isTarget then
-		local infoStartIdx, infoEndIdx = get_open_info_indices(idx)
 		vim.api.nvim_buf_set_lines(Menu_bufnr, infoStartIdx, infoEndIdx, false, {})
 		return
 	end
