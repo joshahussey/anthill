@@ -58,7 +58,10 @@ local function create_table_from_string(string, lineLength, name)
 		if i == 1 then
 			line = "  |  " .. name .. ": " .. string.sub(string, 1, lineLength)
 		else
-			line = "  |  " .. startPadding .. ": " .. string.sub(string, i * lineLength, (i * lineLength) + lineLength)
+			line = "  |  "
+				.. startPadding
+				.. ": "
+				.. string.sub(string, ((i - 1) * lineLength) + 1, (i * lineLength) + lineLength)
 		end
 		table[i] = line
 		i = i + 1
