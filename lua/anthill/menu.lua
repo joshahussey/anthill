@@ -26,6 +26,7 @@ local function get_open_info_indices(idx)
 		while not table_contains(Targets, lineString) do
 			startIdx = idx - count
 			lineString = vim.fn.getbufline(Menu_bufnr, startIdx, startIdx)[1]
+			count = count + 1
 		end
 	end
 	local nextLineString = vim.fn.getbufline(Menu_bufnr, endIdx, endIdx)[1]
