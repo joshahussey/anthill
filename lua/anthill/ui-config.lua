@@ -8,7 +8,7 @@ M.info_highlight_target_colour = "#ff0000"
 -- UI FUNCTIONS --
 function M.remove_colour_highlight(bufnr, line_start, line_end)
 	for line = line_start, line_end do
-		vim.api.nvim_buf_clear_namespace(bufnr, -1, line - 1, line_end)
+		vim.api.nvim_buf_clear_namespace(bufnr, -1, line, line + 1)
 	end
 end
 
