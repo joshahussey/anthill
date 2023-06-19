@@ -10,6 +10,7 @@ local function table_contains(table, element)
 end
 local function get_target_index(table, element)
 	for index, value in pairs(table) do
+		print(value)
 		if value == element then
 			return index
 		end
