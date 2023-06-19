@@ -19,6 +19,7 @@ local function get_open_info_indices(idx)
 	local startIdx = idx
 	local endIdx = idx
 	local lastLine = vim.fn.line("$")
+	print(lastLine)
 	local lineString = vim.fn.getbufline(Menu_bufnr, idx, idx)[1]
 	if table_contains(Targets, lineString) then
 		startIdx = idx
@@ -198,7 +199,6 @@ function M.toggle_show_info()
 		return
 	end
 	local nextLineString = vim.fn.getbufline(Menu_bufnr, idx + 1, idx + 1)[1]
-	print(nextLineString)
 	local isNextTarget = table_contains(Targets, nextLineString)
 	if isTarget and isNextTarget then
 		open_info(idx, lineString)
