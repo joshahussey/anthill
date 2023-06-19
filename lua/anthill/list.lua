@@ -56,9 +56,11 @@ function M.Get_build_list_info()
 				if depends == nil then
 					depends = "None"
 				end
-				targets[idx] = name
-				info[idx] = { description = description, depends = depends }
-				idx = idx + 1
+				if name ~= nil then
+					targets[idx] = name
+					info[idx] = { description = description, depends = depends }
+					idx = idx + 1
+				end
 			end
 		end
 	end
