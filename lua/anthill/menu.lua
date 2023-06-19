@@ -17,7 +17,8 @@ local function get_target_index(table, element)
 end
 local function get_open_info_indices(idx)
 	local startIdx = idx
-	local endIdx = idx + 1
+	local endIdx = idx
+	local lastLine = vim.fn.line("$")
 	local lineString = vim.fn.getbufline(Menu_bufnr, idx, idx)[1]
 	if table_contains(Targets, lineString) then
 		startIdx = idx
@@ -29,12 +30,14 @@ local function get_open_info_indices(idx)
 			count = count + 1
 		end
 	end
-	local nextLineString = vim.fn.getbufline(Menu_bufnr, endIdx, endIdx)[1]
-	while not table_contains(Targets, nextLineString) do
-		endIdx = endIdx + 1
-		nextLineString = vim.fn.getbufline(Menu_bufnr, endIdx, endIdx)[1]
+	if not endIdx == lastLine then
+		local nextLineString = vim.fn.getbufline(Menu_bufnr, endIdx, endIdx)[1]
+		while not table_contains(Targets, nextLineString) and not endIdx == lastLine do
+			endIdx = endIdx + 1
+			nextLineString = vim.fn.getbufline(Menu_bufnr, endIdx, endIdx)[1]
+		end
 	end
-	return startIdx, endIdx - 1
+	return startIdx, endIdx
 end
 local function get_start_padding(name)
 	local nameLength = string.len(name)
@@ -183,10 +186,19 @@ end
 
 function M.toggle_show_info()
 	local idx = vim.fn.line(".")
+	local lastLine = vim.fn.line("$")
 	local lineString = vim.fn.getbufline(Menu_bufnr, idx, idx)[1]
+	local isTarget = table_contains(Targets, lineString)
+	if (idx == lastLine) and not isTarget then
+		close_info(idx)
+		return
+	end
+	if (idx == lastLine) and isTarget then
+		open_info(idx)
+		return
+	end
 	local nextLineString = vim.fn.getbufline(Menu_bufnr, idx + 1, idx + 1)[1]
 	print(nextLineString)
-	local isTarget = table_contains(Targets, lineString)
 	local isNextTarget = table_contains(Targets, nextLineString)
 	if isTarget and isNextTarget then
 		open_info(idx, lineString)
