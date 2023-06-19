@@ -33,7 +33,7 @@ local function get_open_info_indices(idx)
 	if endIdx ~= lastLine then
 		endIdx = endIdx + 1
 		local nextLineString = vim.fn.getbufline(Menu_bufnr, endIdx, endIdx)[1]
-		while not table_contains(Targets, nextLineString) and not endIdx == lastLine do
+		while (not table_contains(Targets, nextLineString)) and (endIdx ~= lastLine) do
 			endIdx = endIdx + 1
 			nextLineString = vim.fn.getbufline(Menu_bufnr, endIdx, endIdx)[1]
 		end
@@ -58,7 +58,7 @@ local function create_table_from_string(string, lineLength, name)
 	local startPadding = get_start_padding(name)
 	local i = 1
 	local line = ""
-	while i <= lineCount do
+	while i < lineCount do
 		if i == 1 then
 			line = "  |  " .. name .. ": " .. string.sub(string, 1, lineLength)
 		else
@@ -74,6 +74,7 @@ local function create_table_from_string(string, lineLength, name)
 end
 local function open_info(idx, string)
 	local infoIdx = get_target_index(Targets, string)
+	print(infoIdx)
 	local info = Info[infoIdx]
 	local description = info.description
 	local lineCount = string.len(description) / 50
