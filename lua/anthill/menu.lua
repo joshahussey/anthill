@@ -93,7 +93,7 @@ local function open_info(idx, string)
 	table.insert(infoLines, "  |  Depends: " .. info.depends)
 	vim.api.nvim_buf_set_lines(Menu_bufnr, idx, idx, false, infoLines)
 	local infoStartIdx, infoEndIdx = get_open_info_indices(idx)
-	ui_config.set_colour_highlight(Menu_bufnr, infoStartIdx, infoEndIdx)
+	ui_config.add_colour_highlight(Menu_bufnr, infoStartIdx, infoEndIdx)
 end
 local function close_info(idx)
 	local infoStartIdx, infoEndIdx = get_open_info_indices(idx)
