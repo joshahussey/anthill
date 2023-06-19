@@ -1,5 +1,6 @@
 local popup = require("plenary.popup")
 local L = require("anthill.list")
+local ui_config = require("anthill.ui-config")
 local function table_contains(table, element)
 	for _, value in pairs(table) do
 		if value == element then
@@ -50,7 +51,7 @@ local function get_start_padding(name)
 	end
 	return padding
 end
-function splitStringByLength(str, length)
+local function splitStringByLength(str, length)
 	local result = {}
 	local startIndex = 1
 	local endIndex = length
@@ -91,10 +92,13 @@ local function open_info(idx, string)
 	local infoLines = create_table_from_string(description, 50, "Description")
 	table.insert(infoLines, "  |  Depends: " .. info.depends)
 	vim.api.nvim_buf_set_lines(Menu_bufnr, idx, idx, false, infoLines)
+	local infoStartIdx, infoEndIdx = get_open_info_indices(idx)
+	ui_config.set_colour_highlight(Menu_bufnr, infoStartIdx, infoEndIdx)
 end
 local function close_info(idx)
 	local infoStartIdx, infoEndIdx = get_open_info_indices(idx)
 	vim.api.nvim_buf_set_lines(Menu_bufnr, infoStartIdx, infoEndIdx, false, {})
+	ui_config.remove_colour_highlight(Menu_bufnr, infoStartIdx, infoEndIdx)
 end
 
 Info = L.info

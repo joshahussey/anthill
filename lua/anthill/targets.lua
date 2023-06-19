@@ -1,3 +1,4 @@
+--DEPRECATED. DO NOT USE THESE FUNCTIONS. WILL BE REMOVED SOON.
 local xmlreader = require("xmlreader")
 local root_markers = { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle, build.xml" }
 local root_dir = require("jdtls.setup").find_root(root_markers)
