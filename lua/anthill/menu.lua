@@ -197,7 +197,7 @@ function M.toggle_show_info()
 		return
 	end
 	if (idx == lastLine) and isTarget then
-		open_info(idx)
+		open_info(idx, lineString)
 		return
 	end
 	local nextLineString = vim.fn.getbufline(Menu_bufnr, idx + 1, idx + 1)[1]
