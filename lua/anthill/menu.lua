@@ -19,7 +19,6 @@ local function get_open_info_indices(idx)
 	local startIdx = idx
 	local endIdx = idx
 	local lastLine = vim.fn.line("$")
-	print(lastLine)
 	local lineString = vim.fn.getbufline(Menu_bufnr, idx, idx)[1]
 	if table_contains(Targets, lineString) then
 		startIdx = idx
@@ -31,7 +30,8 @@ local function get_open_info_indices(idx)
 			count = count + 1
 		end
 	end
-	if not endIdx == lastLine then
+	if endIdx ~= lastLine then
+		endIdx = endIdx + 1
 		local nextLineString = vim.fn.getbufline(Menu_bufnr, endIdx, endIdx)[1]
 		while not table_contains(Targets, nextLineString) and not endIdx == lastLine do
 			endIdx = endIdx + 1
