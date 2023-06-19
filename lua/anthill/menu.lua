@@ -50,27 +50,32 @@ local function get_start_padding(name)
 	end
 	return padding
 end
+function splitStringByLength(str, length)
+	local result = {}
+	local startIndex = 1
+	local endIndex = length
+	while startIndex <= #str do
+		if endIndex > #str then
+			endIndex = #str
+		end
+		table.insert(result, string.sub(str, startIndex, endIndex))
+		startIndex = endIndex + 1
+		endIndex = startIndex + length - 1
+	end
+	return result
+end
+
 local function create_table_from_string(string, lineLength, name)
 	string = string.gsub(string, "%s%s+", " ")
-	local stringLength = string.len(string)
-	local table = {}
-	local lineCount = math.ceil(stringLength / lineLength)
-	local startPadding = get_start_padding(name)
-	local i = 1
-	local line = ""
-	while i <= lineCount do
+	local stringTable = splitStringByLength(string, lineLength)
+	for i, v in ipairs(stringTable) do
 		if i == 1 then
-			line = "  |  " .. name .. ": " .. string.sub(string, 1, lineLength)
+			stringTable[i] = "  |  " .. name .. ": " .. v
 		else
-			line = "  |  "
-				.. startPadding
-				.. ": "
-				.. string.sub(string, ((i - 1) * lineLength) + 1, (i * lineLength) + lineLength)
+			stringTable[i] = "  |  " .. get_start_padding(name) .. ": " .. v
 		end
-		table[i] = line
-		i = i + 1
 	end
-	return table
+	return stringTable
 end
 local function open_info(idx, string)
 	local infoIdx = get_target_index(Targets, string)
