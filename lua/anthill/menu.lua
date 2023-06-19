@@ -1,5 +1,4 @@
 local popup = require("plenary.popup")
-local T = require("anthill.targets")
 local L = require("anthill.list")
 local function table_contains(table, element)
 	for _, value in pairs(table) do
@@ -73,7 +72,6 @@ if Target_count == 0 then
 	return
 end
 
---Menu State
 Menu_id = nil
 Menu_bufnr = nil
 
@@ -162,26 +160,35 @@ end
 
 function M.toggle_show_info()
 	local idx = vim.fn.line(".")
-	--local info = Info[idx]
-	local target = vim.fn.getbufline(Menu_bufnr, idx, idx)[1]
-	local isTarget = table_contains(Targets, target)
+	local lineString = vim.fn.getbufline(Menu_bufnr, idx, idx)[1]
+	local nextLineString = vim.fn.getbufline(Menu_bufnr, idx + 1, idx + 1)[1]
+	local isTarget = table_contains(Targets, lineString)
+	local isNextTarget = table_contains(Targets, nextLineString)
+	if isTarget and isNextTarget then
+		local infoIdx = get_target_index(Targets, lineString)
+		local info = Info[infoIdx]
+		local description = info.description
+		local lineCount = string.len(description) / 50
+		if lineCount < 1 and lineCount ~= 0 then
+			lineCount = 1
+		elseif lineCount > 1 then
+			lineCount = math.ceil(lineCount)
+		end
+		local infoLines = create_table_from_string(description, 50, "Description")
+		table.insert(infoLines, "  |  Depends: " .. info.depends)
+		vim.api.nvim_buf_set_lines(Menu_bufnr, idx, idx, false, infoLines)
+		return
+	elseif (isTarget and not isNextTarget) or not isTarget then
+		local infoStartIdx, infoEndIdx = get_open_info_indices(idx)
+		print(infoStartIdx, infoEndIdx)
+		return
+	end
+
 	if not isTarget then
 		local infoStartIdx, infoEndIdx = get_open_info_indices(idx)
 		vim.api.nvim_buf_set_lines(Menu_bufnr, infoStartIdx, infoEndIdx, false, {})
 		return
 	end
-	local infoIdx = get_target_index(Targets, target)
-	local info = Info[infoIdx]
-	local description = info.description
-	local lineCount = string.len(description) / 50
-	if lineCount < 1 and lineCount ~= 0 then
-		lineCount = 1
-	elseif lineCount > 1 then
-		lineCount = math.ceil(lineCount)
-	end
-	local infoLines = create_table_from_string(description, 50, "Description")
-	table.insert(infoLines, "  |  Depends: " .. info.depends)
-	vim.api.nvim_buf_set_lines(Menu_bufnr, idx, idx, false, infoLines)
 end
 
 return M
