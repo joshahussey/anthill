@@ -47,6 +47,7 @@ local function get_start_padding(name)
 	return padding
 end
 local function create_table_from_string(string, lineLength, name)
+	string = string.gsub(string, "%s%s+", " ")
 	local stringLength = string.len(string)
 	local table = {}
 	local lineCount = math.ceil(stringLength / lineLength)
