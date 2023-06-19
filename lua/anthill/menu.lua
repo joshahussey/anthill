@@ -98,7 +98,7 @@ end
 local function close_info(idx)
 	local infoStartIdx, infoEndIdx = get_open_info_indices(idx)
 	vim.api.nvim_buf_set_lines(Menu_bufnr, infoStartIdx, infoEndIdx, false, {})
-	ui_config.remove_colour_highlight(Menu_bufnr, infoStartIdx, infoEndIdx)
+	ui_config.remove_colour_highlight(Menu_bufnr, infoStartIdx, infoStartIdx)
 end
 
 Info = L.info

@@ -2,8 +2,8 @@ local M = {}
 
 M.info_highlight_group_name = "info_group_text_colour"
 M.info_highlight_target_name = "info_group_target_colour"
-M.info_highlight_text_colour = "#731d1d"
-M.info_highlight_target_colour = "#ff0000"
+M.info_highlight_text_colour = "#FAD8D6"
+M.info_highlight_target_colour = "#EDB88B"
 
 -- UI FUNCTIONS --
 function M.remove_colour_highlight(bufnr, line_start, line_end)
