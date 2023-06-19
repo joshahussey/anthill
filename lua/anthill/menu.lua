@@ -10,7 +10,6 @@ local function table_contains(table, element)
 end
 local function get_target_index(table, element)
 	for index, value in pairs(table) do
-		print(value)
 		if value == element then
 			return index
 		end
@@ -59,7 +58,7 @@ local function create_table_from_string(string, lineLength, name)
 	local startPadding = get_start_padding(name)
 	local i = 1
 	local line = ""
-	while i < lineCount do
+	while i <= lineCount do
 		if i == 1 then
 			line = "  |  " .. name .. ": " .. string.sub(string, 1, lineLength)
 		else
