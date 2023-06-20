@@ -57,7 +57,7 @@ function M.Get_build_list_info()
 					depends = "None"
 				end
 				targets[idx] = name
-				info[idx] = { description = description, depends = depends }
+				info[idx] = { description = description, depends = depends, line_number = r:line_number() }
 				idx = idx + 1
 			end
 		end

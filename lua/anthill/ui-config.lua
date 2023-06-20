@@ -24,4 +24,9 @@ end
 function M.new_build_file_buffer(path)
 	vim.api.nvim_command("edit " .. path)
 end
+
+function M.new_build_file_buffer_to_target(path, line)
+	vim.api.nvim_command("edit " .. line .. " " .. path .. " | normal!")
+end
+
 return M
