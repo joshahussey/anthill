@@ -31,6 +31,6 @@ end
 
 function M.jump_to_target_from_name(path, name)
 	print("edit +/'target name=" .. name .. "' " .. path .. " | normal! zz")
-	vim.api.nvim_command("edit +/'target name=" .. name .. "' " .. path .. " | normal! zz")
+	vim.api.nvim_command("edit +/name=" .. name .. " " .. path .. " | normal! zz")
 end
 return M
