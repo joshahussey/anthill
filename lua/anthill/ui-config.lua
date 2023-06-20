@@ -30,6 +30,6 @@ function M.new_build_file_buffer_to_target(path, line)
 end
 
 function M.jump_to_target_from_name(path, name)
-	vim.api.nvim_command("edit +/" .. name .. " " .. path .. " | normal! zz")
+	vim.api.nvim_command("edit +/<target name=" .. name .. " " .. path .. " | normal! zz")
 end
 return M
