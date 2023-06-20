@@ -21,4 +21,7 @@ function M.add_colour_highlight(bufnr, line_start, line_end)
 	vim.cmd("highlight " .. M.info_highlight_target_name .. " guifg=" .. M.info_highlight_target_colour)
 end
 
+function M.new_build_file_buffer(path)
+	vim.api.nvim_command("edit " .. path)
+end
 return M

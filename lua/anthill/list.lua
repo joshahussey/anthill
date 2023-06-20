@@ -74,4 +74,5 @@ end
 if M.info == nil then
 	M.targets, M.target_count, M.info = M.Get_build_list_info()
 end
+M.build_file_path = build_file_path
 return M

@@ -177,6 +177,7 @@ function M.toggle_ant_menu()
 	)
 	vim.api.nvim_buf_set_keymap(Menu_bufnr, "n", "<CR>", "<Cmd>lua require('anthill.menu').select_menu_item()<CR>", {})
 	vim.api.nvim_buf_set_keymap(Menu_bufnr, "n", "d", "<Cmd>lua require('anthill.menu').toggle_show_info()<CR>", {})
+	vim.api.nvim_buf_set_keymap(Menu_bufnr, "n", "o", "<Cmd>lua require('anthill.menu').open_build_file()<CR>", {})
 end
 
 function M.select_menu_item()
@@ -217,6 +218,11 @@ function M.toggle_show_info()
 		close_info(idx)
 		return
 	end
+end
+
+function M.open_build_file()
+	close_menu()
+	ui_config.new_build_file_buffer(L.build_file_path)
 end
 
 return M
