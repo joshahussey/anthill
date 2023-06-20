@@ -8,7 +8,8 @@ M.info_highlight_target_colour = "#EDB88B"
 -- UI FUNCTIONS --
 function M.remove_colour_highlight(bufnr, line_start, line_end)
 	for line = line_start, line_end do
-		vim.api.nvim_buf_clear_namespace(bufnr, -1, line - 1, line)
+		print(line)
+		vim.api.nvim_buf_clear_namespace(bufnr, -1, line, line)
 	end
 end
 
