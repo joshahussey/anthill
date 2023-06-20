@@ -31,8 +31,10 @@ Run Target: `<CR>`
 - [x] Add Build Description support - 2023/06/18
 - [x] Add dependency support - 2023/06/18
 - [x] Add "Open Build XML" support
-- [ ] Implement opening build file to selected target
+- [x] Implement opening build file to selected target
 - [ ] Remove dependencies on JDTLS
+
+## Suggestions/requests/issues are greatly appreciated!
 
 ## Credit
 ### ThePrimeagen/Harpoon
