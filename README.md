@@ -20,10 +20,10 @@ To map a different key call:
 `require("anthill.menu").toggle_ant_menu()`
 
 ### Defaults:
-Open/Close menu: <Leader>r
-Toggle Build Info: d
-Open Build File: o
-Run Target: <CR>
+Open/Close menu: `<Leader>r` <br />
+Toggle Build Info: `d` <br />
+Open Build File: `o` <br />
+Run Target: `<CR>` 
 
 ## TODO
 - [x] Add list of builds - Core Functionality
