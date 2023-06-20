@@ -19,12 +19,19 @@ Open AntHill menu, select the target you want to build
 To map a different key call:
 `require("anthill.menu").toggle_ant_menu()`
 
+### Defaults:
+Open/Close menu: <Leader>r
+Toggle Build Info: d
+Open Build File: o
+Run Target: <CR>
+
 ## TODO
 - [x] Add list of builds - Core Functionality
 - [x] Add building from selection - Core Functionality
 - [x] Add Build Description support - 2023/06/18
 - [x] Add dependency support - 2023/06/18
-- [ ] Add "Open Build XML" support
+- [x] Add "Open Build XML" support
+- [ ] Implement opening build file to selected target
 - [ ] Remove dependencies on JDTLS
 
 ## Credit
