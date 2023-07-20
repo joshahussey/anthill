@@ -10,7 +10,6 @@ Allows for quick selection and building of targets from Java Ant Projects
 
 ### dependencies
 - xmlreader `luarocks install xmlreader`
-- JDTLS, download and install JDTLS, configuration not required. (To be removed soon)
 
 ## Usage
 Open AntHill menu, select the target you want to build
@@ -23,6 +22,7 @@ To map a different key call:
 Open/Close menu: `<Leader>r` <br />
 Toggle Build Info: `d` <br />
 Open Build File: `o` <br />
+Jump to Target in Build File: `t` <br />
 Run Target: `<CR>` 
 
 ## TODO
@@ -32,7 +32,8 @@ Run Target: `<CR>`
 - [x] Add dependency support - 2023/06/18
 - [x] Add "Open Build XML" support
 - [x] Implement opening build file to selected target
-- [ ] Remove dependencies on JDTLS
+- [x] Remove dependencies on JDTLS
+- [ ] Verify last build target is shown from build files larger than window size
 
 ## Suggestions/requests/issues are greatly appreciated!
 
