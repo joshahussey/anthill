@@ -27,7 +27,9 @@ function M.Get_build_list_info()
 	local info = {}
 	local targets = {}
 	local idx = 1
-    print(path)
+    if path == '' then
+        return targets, idx, info
+    end
 	local r = assert(xmlreader.from_file(path))
 	while r:read() do
 		if r:node_type() ~= "end element" then
