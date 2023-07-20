@@ -8,7 +8,12 @@ end
 local function get_build_file_path()
     local cwd = vim.fn.getcwd()
     print(cwd)
-    return find_root(root_markers) .. "/build.xml"
+    local root = find_root(root_markers)
+    local path = ''
+    if not (root == nil) then
+        path = root .. "/build.xml"
+    end
+    return path
 end
 local root_dir = find_root(root_markers)
 --require("jdtls.setup").find_root(root_markers)
@@ -35,7 +40,10 @@ function File_exists(name)
 	end
 end
 
-local build_file_path = root_dir .. "/build.xml"
+local build_file_path = ''
+if not (root_dir == nil) then
+    build_file_path = root_dir .. "/build.xml"
+end
 function M.Get_build_list_info()
     local path = get_build_file_path()
 	local info = {}
