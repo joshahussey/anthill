@@ -1,7 +1,7 @@
 local xmlreader = require("xmlreader")
 local root_markers = { "build.xml" }
-local function find_root(root_markers)
-    return vim.fs.dirname(vim.fs.find(root_markers, {upward=true})[1]) .."\\"
+local function find_root(markers)
+    return vim.fs.dirname(vim.fs.find(markers, {upward=true})[1]) .."\\"
 end
 local root_dir = find_root(root_markers)--require("jdtls.setup").find_root(root_markers)
 local M = {}
