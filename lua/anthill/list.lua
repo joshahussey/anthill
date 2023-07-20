@@ -6,12 +6,10 @@ local function find_root(markers)
 end
 local function get_build_file_path()
     local root = find_root(root_markers)
-    print(root)
     local path = ''
     if not (root == nil) then
         path = root .. "/build.xml"
     end
-    print(path)
     return path
 end
 local M = {}
@@ -29,6 +27,7 @@ function M.Get_build_list_info()
 	local info = {}
 	local targets = {}
 	local idx = 1
+    print(path)
 	local r = assert(xmlreader.from_file(path))
 	while r:read() do
 		if r:node_type() ~= "end element" then
@@ -65,8 +64,8 @@ function M.Get_build_list_info()
 	return targets, idx, info
 end
 function M.update()
-    M.build_file_path = get_build_file_path()
-    M.targets, M.target_count, M.info = M.Get_build_list_info()
-    return M.build_file_path, M.targets, M.target_count, M.info
+    local build_file_path = get_build_file_path()
+    local targets, target_count, info = M.Get_build_list_info()
+    return build_file_path, targets, target_count, info
 end
 return M

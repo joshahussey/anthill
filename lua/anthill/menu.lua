@@ -116,6 +116,10 @@ end
 
 local function create_window()
 	local Build_file_path, Targets, Target_count, Info  = L.update()
+    print(Build_file_path)
+    print(Targets)
+    print(Target_count)
+    print(Info)
     if (Build_File_Path == nil) or not L.File_exists(Build_file_path) then
         print("No build.xml found")
         return
