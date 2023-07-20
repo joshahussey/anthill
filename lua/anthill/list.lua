@@ -96,7 +96,9 @@ if M.info == nil then
 end
 M.build_file_path = build_file_path
 function M.update()
+    print("Updating")
     M.build_file_path = get_build_file_path()
+    print(M.build_file_path)
     M.targets, M.target_count, M.info = M.Get_build_list_info()
     return M
 end
