@@ -115,7 +115,7 @@ local function close_menu()
 end
 
 local function create_window()
-	local Build_file_path, Targets, Target_count, Info  = L.update()
+	Build_file_path, Targets, Target_count, Info  = L.update()
     print(Build_file_path)
     print(Targets)
     print(Target_count)
