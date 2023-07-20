@@ -146,6 +146,7 @@ local function create_window()
 	return {
 		bufnr = bufnr,
 		menu_id = menu_id,
+        targets = Targets
 	}
 end
 
@@ -162,6 +163,7 @@ function M.toggle_ant_menu()
     end
 	Menu_id = menu_info.menu_id
 	Menu_bufnr = menu_info.bufnr
+    Targets = menu_info.targets
 
 	vim.api.nvim_win_set_option(Menu_id, "number", true)
 	vim.api.nvim_buf_set_name(Menu_bufnr, "Ant Targets")
