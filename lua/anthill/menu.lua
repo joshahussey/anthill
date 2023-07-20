@@ -16,6 +16,12 @@ local function get_target_index(table, element)
 		end
 	end
 end
+local function update_targets()
+	local N = L.update()
+	Info = N.info
+	Targets = N.targets
+	Target_count = N.target_count
+end
 local function get_open_info_indices(idx)
 	local startIdx = idx
 	local endIdx = idx
@@ -80,7 +86,6 @@ local function create_table_from_string(string, lineLength, name)
 end
 local function open_info(idx, string)
 	local infoIdx = get_target_index(Targets, string)
-	print(infoIdx)
 	local info = Info[infoIdx]
 	local description = info.description
 	local lineCount = string.len(description) / 50
@@ -119,6 +124,7 @@ local function close_menu()
 end
 
 local function create_window()
+	update_targets()
 	local width = 80
 	local height = 25
 	if Target_count < height then
@@ -239,4 +245,5 @@ function M.open_build_file_to_target()
 	--ui_config.new_build_file_buffer_to_target(L.build_file_path, line_number)
 	ui_config.jump_to_target_from_name(L.build_file_path, string)
 end
+
 return M
