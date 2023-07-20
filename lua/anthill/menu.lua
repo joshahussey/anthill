@@ -21,6 +21,7 @@ local function update_targets()
 	Info = N.info
 	Targets = N.targets
 	Target_count = N.target_count
+    Build_File_Path = N.build_file_path
 end
 local function get_open_info_indices(idx)
 	local startIdx = idx
@@ -109,6 +110,7 @@ end
 Info = L.info
 Targets = L.targets
 Target_count = L.target_count
+Build_File_Path = L.build_file_path
 local M = {}
 if Target_count == 0 then
 	return
@@ -125,6 +127,9 @@ end
 
 local function create_window()
 	update_targets()
+    if Build_File_Path == nil then
+        return
+    end
 	local width = 80
 	local height = 25
 	if Target_count < height then

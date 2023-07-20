@@ -96,7 +96,8 @@ if M.info == nil then
 end
 M.build_file_path = build_file_path
 function M.update()
-    local targets, target_count, info = M.Get_build_list_info()
-    return { targets = targets, target_count = target_count, info = info }
+    M.build_file_path = get_build_file_path()
+    M.targets, M.target_count, M.info = M.Get_build_list_info()
+    return M
 end
 return M
