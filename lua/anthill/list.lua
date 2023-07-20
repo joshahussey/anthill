@@ -9,7 +9,9 @@ local function find_root(markers)
      print(dirname)
     return dirname
 end
-local root_dir = find_root(root_markers)--require("jdtls.setup").find_root(root_markers)
+local root_dir = function()
+    return find_root(root_markers)
+end--require("jdtls.setup").find_root(root_markers)
 local M = {}
 if root_dir == nil then
 	M.info = {}
@@ -33,7 +35,7 @@ function File_exists(name)
 	end
 end
 
-local build_file_path = root_dir .. "/build.xml"
+local build_file_path = root_dir() .. "/build.xml"
 function M.Get_build_list_info()
 	local info = {}
 	local targets = {}
