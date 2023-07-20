@@ -1,7 +1,6 @@
 local xmlreader = require("xmlreader")
 local root_markers = { "build.xml" }
 local function find_root(markers)
-    local cwd = vim.fn.getcwd()
     local dirname = vim.fs.dirname(vim.fs.find(markers, {path = vim.fn.getcwd(), upward=true})[1])
     return dirname
 end
@@ -15,34 +14,15 @@ local function get_build_file_path()
     end
     return path
 end
-local root_dir = find_root(root_markers)
---require("jdtls.setup").find_root(root_markers)
 local M = {}
-if root_dir == nil then
-	M.info = {}
-	M.target_count = 0
-	M.targets = {}
-	return M
-end
-if root_dir == "" then
-	M.info = {}
-	M.target_count = 0
-	M.targets = {}
-	return M
-end
-function File_exists(name)
-	local f = io.open(name, "r")
-	if f ~= nil then
-		io.close(f)
-		return true
-	else
-		return false
-	end
-end
-
-local build_file_path = ''
-if not (root_dir == nil) then
-    build_file_path = root_dir .. "/build.xml"
+function M.File_exists(name)
+    local f = io.open(name, "r")
+    if f ~= nil then
+        io.close(f)
+        return true
+    else
+        return false
+    end
 end
 function M.Get_build_list_info()
     local path = get_build_file_path()
@@ -84,22 +64,9 @@ function M.Get_build_list_info()
 	end
 	return targets, idx, info
 end
-
-if not File_exists(build_file_path) then
-	M.info = {}
-	M.target_count = 0
-	M.targets = {}
-	return M
-end
-if M.info == nil then
-	M.targets, M.target_count, M.info = M.Get_build_list_info()
-end
-M.build_file_path = build_file_path
 function M.update()
-    print("Updating")
     M.build_file_path = get_build_file_path()
-    print(M.build_file_path)
     M.targets, M.target_count, M.info = M.Get_build_list_info()
-    return M
+    return M.build_file_path, M.targets, M.target_count, M.info
 end
 return M

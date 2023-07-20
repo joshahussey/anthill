@@ -1,6 +1,11 @@
 local popup = require("plenary.popup")
 local L = require("anthill.list")
 local ui_config = require("anthill.ui-config")
+local M = {}
+Build_File_Path = ''
+Targets = {}
+Info = {}
+Target_count = 0
 local function table_contains(table, element)
 	for _, value in pairs(table) do
 		if value == element then
@@ -15,13 +20,6 @@ local function get_target_index(table, element)
 			return index
 		end
 	end
-end
-local function update_targets()
-	local N = L.update()
-	Info = N.info
-	Targets = N.targets
-	Target_count = N.target_count
-    Build_File_Path = N.build_file_path
 end
 local function get_open_info_indices(idx)
 	local startIdx = idx
@@ -107,15 +105,6 @@ local function close_info(idx)
 	vim.api.nvim_buf_set_lines(Menu_bufnr, infoStartIdx, infoEndIdx, false, {})
 end
 
-Info = L.info
-Targets = L.targets
-Target_count = L.target_count
-Build_File_Path = L.build_file_path
-local M = {}
-if Target_count == 0 then
-	return
-end
-
 Menu_id = nil
 Menu_bufnr = nil
 
@@ -126,8 +115,9 @@ local function close_menu()
 end
 
 local function create_window()
-	update_targets()
-    if Build_File_Path == nil then
+	local Build_file_path, Targets, Target_count, Info  = L.update()
+    if (Build_File_Path == nil) or not L.File_exists(Build_file_path) then
+        print("No build.xml found")
         return
     end
 	local width = 80
@@ -163,6 +153,9 @@ function M.toggle_ant_menu()
 	end
 
 	local menu_info = create_window()
+    if menu_info == nil then
+        return
+    end
 	Menu_id = menu_info.menu_id
 	Menu_bufnr = menu_info.bufnr
 
