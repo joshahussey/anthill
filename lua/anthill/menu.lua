@@ -235,7 +235,7 @@ end
 
 function M.open_build_file()
 	close_menu()
-	ui_config.new_build_file_buffer(L.build_file_path)
+	ui_config.new_build_file_buffer(Build_file_path)
 end
 
 function M.open_build_file_to_target()
@@ -243,7 +243,7 @@ function M.open_build_file_to_target()
 	--local line_number = Info[get_target_index(Targets, string)].line_number
 	close_menu()
 	--ui_config.new_build_file_buffer_to_target(L.build_file_path, line_number)
-	ui_config.jump_to_target_from_name(L.build_file_path, string)
+	ui_config.jump_to_target_from_name(Build_file_path, string)
 end
 
 return M

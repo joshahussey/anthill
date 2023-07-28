@@ -13,6 +13,7 @@ local function get_build_file_path()
     return path
 end
 local M = {}
+M.build_file_path = get_build_file_path()
 function M.File_exists(name)
     local f = io.open(name, "r")
     if f ~= nil then
