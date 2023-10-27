@@ -8,6 +8,32 @@ Allows for quick selection and building of targets from Java Ant Projects
 ### Packer
 `use({joshahussey/anthill})`
 
+### Tree-Sitter Ant output highlighting
+
+Add the following to your tree-sitter-config
+
+```
+local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+parser_config.antout= {
+        install_info = {
+                url = "https://github.com/joshahussey/tree-sitter-antout",
+                files = { "src/parser.c" },
+                generate_requires_npm = false,
+                requires_generate_from_grammar = false,
+                branch = "master", 
+        },
+        filetype = "antout"
+}
+```
+
+For default highlighting, copy queries/highlights.scm to whereever your highlighting schemes are located.
+It could be any of the following, or eslewhere:
+
+```
+~/.config/nvim/queries/
+~/.local/share/nvim/site/pack/packer/start/nvim-treesitter/queries/
+```
+
 ### dependencies
 - xmlreader `luarocks install xmlreader`
 

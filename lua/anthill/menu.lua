@@ -1,6 +1,7 @@
 local popup = require("plenary.popup")
 local L = require("anthill.list")
 local ui_config = require("anthill.ui-config")
+
 local M = {}
 Build_File_Path = ''
 Targets = {}
@@ -206,7 +207,7 @@ function M.select_menu_item()
 		end
 	end
 	close_menu()
-	vim.cmd(":Ant " .. target)
+	vim.cmd(":Ant " .. Build_file_path .. " " .. target)
 end
 
 function M.toggle_show_info()

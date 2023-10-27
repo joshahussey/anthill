@@ -1,3 +1,4 @@
+require('anthill.ant')
 require('plenary.path')
 require('anthill.menu')
 local keymap = vim.api.nvim_set_keymap
