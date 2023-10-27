@@ -3,7 +3,9 @@ API = vim.api
 local function close_win(buf_handle)
     vim.api.nvim_buf_delete(buf_handle, { force = true, unload = true })
 end
-local function run_ant(build_file_path, target)
+local function run_ant(args)--build_file_path, target)
+    local build_file_path = args[1]
+    local target = args[2]
     local Job = require'plenary.job'
     API.nvim_command("botright split new")
     API.nvim_win_set_height(0, 30)
