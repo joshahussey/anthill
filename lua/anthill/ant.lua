@@ -9,12 +9,6 @@ local function run_ant(command)--build_file_path, target)
     local Job = require'plenary.job'
     API.nvim_command("botright split new")
     API.nvim_win_set_height(0, 30)
-    WIN_HANDLE = API.nvim_tabpage_get_win(0)
-    BUF_HANDLE = API.nvim_win_get_buf(0)
-    API.nvim_buf_set_keymap(0, 'n', 'q', '', { callback = function() close_win(BUF_HANDLE) end, noremap = true, silent = true })
-    API.nvim_buf_set_keymap(0, 'n', '<CR>', '', { callback = function() close_win(BUF_HANDLE) end, noremap = true, silent = true })
-    API.nvim_buf_set_option(BUF_HANDLE, 'buftype', 'nofile')
-    API.nvim_buf_set_option(BUF_HANDLE, 'filetype', 'antout')
     local line = 0;
     Job:new({
         command = 'ant',
@@ -45,6 +39,12 @@ local function run_ant(command)--build_file_path, target)
             end
         end,
     }):start()
+    WIN_HANDLE = API.nvim_tabpage_get_win(0)
+    BUF_HANDLE = API.nvim_win_get_buf(0)
+    API.nvim_buf_set_keymap(0, 'n', 'q', '', { callback = function() close_win(BUF_HANDLE) end, noremap = true, silent = true })
+    API.nvim_buf_set_keymap(0, 'n', '<CR>', '', { callback = function() close_win(BUF_HANDLE) end, noremap = true, silent = true })
+    API.nvim_buf_set_option(BUF_HANDLE, 'buftype', 'nofile')
+    API.nvim_buf_set_option(BUF_HANDLE, 'filetype', 'antout')
 end
 local opts = { nargs = "*" }
 vim.api.nvim_create_user_command('Ant', run_ant, opts);
