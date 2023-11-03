@@ -4,7 +4,6 @@ local function close_win(buf_handle)
     vim.api.nvim_buf_delete(buf_handle, { force = true, unload = true })
 end
 local function run_ant(command)--build_file_path, target)
-    P(command)
     local build_file_path = command.fargs[1]
     local target = command.fargs[2]
     local Job = require'plenary.job'
@@ -17,13 +16,9 @@ local function run_ant(command)--build_file_path, target)
     API.nvim_buf_set_option(BUF_HANDLE, 'buftype', 'nofile')
     API.nvim_buf_set_option(BUF_HANDLE, 'filetype', 'antout')
     local line = 0;
-    local prev_dir = vim.fn.getcwd()
-    vim.cmd( 'cd' .. ' /home/josh/Documents/WES/WebEnterpriseSuite/wes/Cesium' )
     Job:new({
         command = 'ant',
         args = { '-f', build_file_path, target },
-        --cwd = '/home/josh/Documents/WES/WebEnterpriseSuite/',
-        env = {},
         interactive = true,
         on_stdout = function(j, return_val)
             if not j == nil then
@@ -50,7 +45,6 @@ local function run_ant(command)--build_file_path, target)
             end
         end,
     }):start()
-    vim.cmd( 'cd' .. ' ' .. prev_dir )
 end
 local opts = { nargs = "*" }
 vim.api.nvim_create_user_command('Ant', run_ant, opts);
