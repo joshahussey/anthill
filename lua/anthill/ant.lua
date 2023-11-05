@@ -1,7 +1,9 @@
 API = vim.api
 
 local function close_win(buf_handle)
-    vim.api.nvim_buf_delete(buf_handle, { force = true })
+    P(vim.api.nvim_win_get_buf(0))
+    P(buf_handle)
+    vim.schedule(vim.api.nvim_buf_delete(buf_handle, { force = true, unload=true }))
     --vim.api.nvim_command("q")
 end
 local function run_ant(command)--build_file_path, target)
