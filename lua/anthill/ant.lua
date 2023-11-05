@@ -9,7 +9,7 @@ local function close_win(buf_handle)
     for _, win_id in ipairs(other_wins) do
         if win_id ~= current_win then
             vim.api.nvim_set_current_win(win_id)
-            vim.api.nvim_win_close({force = true})
+            vim.api.nvim_win_close({ force = true })
         end
     end
 
@@ -24,10 +24,10 @@ end
 --     vim.schedule(vim.api.nvim_buf_delete(buf_handle, { force = true, unload=true }))
 --     --vim.api.nvim_command("q")
 -- end
-local function run_ant(command)--build_file_path, target)
+local function run_ant(command) --build_file_path, target)
     local build_file_path = command.fargs[1]
     local target = command.fargs[2]
-    local Job = require'plenary.job'
+    local Job = require 'plenary.job'
     API.nvim_command("botright split new")
     API.nvim_win_set_height(0, 30)
     local line = 0;
@@ -59,12 +59,17 @@ local function run_ant(command)--build_file_path, target)
                 end)
             end
         end,
+        on_exit = function()
+            P("DONE")
+        end,
     }):start()
     WIN_HANDLE = API.nvim_tabpage_get_win(0)
     BUF_HANDLE = API.nvim_win_get_buf(0)
     local bufnr = API.nvim_get_current_buf()
-    API.nvim_buf_set_keymap(0, 'n', 'q', '', { callback = function() close_win(bufnr) end, noremap = true, silent = true })
-    API.nvim_buf_set_keymap(0, 'n', '<CR>', '', { callback = function() close_win(bufnr) end, noremap = true, silent = true })
+    API.nvim_buf_set_keymap(0, 'n', 'q', '',
+        { callback = function() close_win(bufnr) end, noremap = true, silent = true })
+    API.nvim_buf_set_keymap(0, 'n', '<CR>', '',
+        { callback = function() close_win(bufnr) end, noremap = true, silent = true })
     API.nvim_buf_set_option(BUF_HANDLE, 'buftype', 'nofile')
     API.nvim_buf_set_option(BUF_HANDLE, 'filetype', 'antout')
 end
