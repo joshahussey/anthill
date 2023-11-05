@@ -1,11 +1,29 @@
 API = vim.api
-
 local function close_win(buf_handle)
-    P(vim.api.nvim_win_get_buf(0))
+    local current_win = vim.api.nvim_get_current_win()
+    P(vim.api.nvim_win_get_buf(current_win))
     P(buf_handle)
-    vim.schedule(vim.api.nvim_buf_delete(buf_handle, { force = true, unload=true }))
-    --vim.api.nvim_command("q")
+
+    -- Check if the buffer is in use by any other windows
+    local other_wins = vim.fn.getbufinfo(buf_handle)[1].windows
+    for _, win_id in ipairs(other_wins) do
+        if win_id ~= current_win then
+            vim.api.nvim_set_current_win(win_id)
+            vim.api.nvim_win_close({force = true})
+        end
+    end
+
+    vim.api.nvim_set_current_win(current_win)
+    vim.schedule(function()
+        vim.api.nvim_buf_delete(buf_handle, { force = true, unload = true })
+    end)
 end
+-- local function close_win(buf_handle)
+--     P(vim.api.nvim_win_get_buf(0))
+--     P(buf_handle)
+--     vim.schedule(vim.api.nvim_buf_delete(buf_handle, { force = true, unload=true }))
+--     --vim.api.nvim_command("q")
+-- end
 local function run_ant(command)--build_file_path, target)
     local build_file_path = command.fargs[1]
     local target = command.fargs[2]
