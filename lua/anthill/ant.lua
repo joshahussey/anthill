@@ -1,8 +1,8 @@
 API = vim.api
 
 local function close_win(buf_handle)
-   -- vim.api.nvim_buf_delete(buf_handle, { force = true })
-    vim.api.nvim_command("q")
+    vim.api.nvim_buf_delete(buf_handle, { force = true })
+    --vim.api.nvim_command("q")
 end
 local function run_ant(command)--build_file_path, target)
     local build_file_path = command.fargs[1]
