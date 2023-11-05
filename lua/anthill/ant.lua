@@ -67,11 +67,10 @@ local function run_ant(command) --build_file_path, target)
         end,
         on_exit = function()
             P("DONE")
-            local bufnr = API.nvim_get_current_buf()
             API.nvim_buf_set_keymap(0, 'n', 'q', '',
-            { callback = function() close_win(bufnr) end, noremap = true, silent = true })
+            { callback = function() close_win(BUF_HANDLE) end, noremap = true, silent = true })
             API.nvim_buf_set_keymap(0, 'n', '<CR>', '',
-            { callback = function() close_win(bufnr) end, noremap = true, silent = true })
+            { callback = function() close_win(BUF_HANDLE) end, noremap = true, silent = true })
         end,
     }):start()
 end
