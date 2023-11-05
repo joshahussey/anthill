@@ -61,15 +61,15 @@ local function run_ant(command) --build_file_path, target)
         end,
         on_exit = function()
             P("DONE")
+            WIN_HANDLE = API.nvim_tabpage_get_win(0)
+            BUF_HANDLE = API.nvim_win_get_buf(0)
+            local bufnr = API.nvim_get_current_buf()
+            API.nvim_buf_set_keymap(0, 'n', 'q', '',
+            { callback = function() close_win(bufnr) end, noremap = true, silent = true })
+            API.nvim_buf_set_keymap(0, 'n', '<CR>', '',
+            { callback = function() close_win(bufnr) end, noremap = true, silent = true })
         end,
     }):start()
-    WIN_HANDLE = API.nvim_tabpage_get_win(0)
-    BUF_HANDLE = API.nvim_win_get_buf(0)
-    local bufnr = API.nvim_get_current_buf()
-    API.nvim_buf_set_keymap(0, 'n', 'q', '',
-        { callback = function() close_win(bufnr) end, noremap = true, silent = true })
-    API.nvim_buf_set_keymap(0, 'n', '<CR>', '',
-        { callback = function() close_win(bufnr) end, noremap = true, silent = true })
     API.nvim_buf_set_option(BUF_HANDLE, 'buftype', 'nofile')
     API.nvim_buf_set_option(BUF_HANDLE, 'filetype', 'antout')
 end
